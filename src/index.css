@@ -21,7 +21,7 @@ body {
 }
 
 .item-button button:hover {
-  color: black;
+  color: rgb(15, 130, 252);
 }
 
 .spinner {
@@ -35,4 +35,93 @@ body {
 .spinner-border {
   width: 60px;
   height: 60px;
+}
+
+.spinner2 {
+  position: absolute;
+  top: 50%;
+  left: 40%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+}
+
+.category {
+  border: 2px solid #000000;
+  margin-right: 25px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  background-color: #ffd885;
+  height: 50px;
+}
+
+.category img {
+  margin-left: 10px;
+  padding-top: 8px;
+  padding-right: 5px;
+}
+
+.category h4 {
+  padding-top: 9px;
+  padding-left: 2px;
+}
+
+.category-active {
+  border: 2px solid rgb(40, 141, 243);
+  background-color: #ffd885;
+}
+
+.login {
+  display: flex;
+  border: 1px solid gray;
+  align-items: center;
+  justify-content: center;
+  width: 60%;
+  height: 500px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+.login input {
+  width: 30%;
+  height: 35px;
+  border: rgb(164, 161, 161) 2px solid;
+}
+
+.login-form {
+  padding-top: 10px;
+  background-color: #ffffff;
+  width: 50%; /* Adjusted to take 50% of the parent */
+  height: 100%; /* Added 'px' */
+  padding: 20px; /* Added padding for better spacing */
+}
+
+.cover-img {
+  padding-top: 90px;
+  text-align: center;
+  background-color: #ffd885;
+  width: 50%;
+  height: 100%;
+  /* You can add background image styling here if needed */
+}
+
+.cover-img h1 {
+  font-size: larger;
+}
+
+.login-form h1 {
+  padding-top: 80px;
+  text-align: center;
+  background-color: rgb(0, 157, 255) (29, 29, 234);
+}
+
+.login-form button {
+  margin-top: 10px;
+  width: 100px;
+  height: 40px;
+  background-color: #ffd885;
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
 }

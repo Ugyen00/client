@@ -1,20 +1,27 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { message } from 'antd';
 import {
   UserOutlined,
   LogoutOutlined,
   HomeOutlined,
   CopyOutlined,
   UnorderedListOutlined,
+  DashboardOutlined,
 } from "@ant-design/icons";
 
 import { Layout, Menu } from 'antd';
 import '../styles/DefaultLayout.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const { Header, Content, Sider } = Layout;
 
 const DefaultItem = (props) => {
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
+  const [loading, setLoading] = useState(true);
+  const [items, setItems] = useState([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const timerID = setInterval(() => {
@@ -22,7 +29,7 @@ const DefaultItem = (props) => {
     }, 1000);
 
     return () => {
-      clearInterval(timerID); // Clear the interval when the component unmounts
+      clearInterval(timerID);
     };
   }, []);
 
@@ -35,6 +42,34 @@ const DefaultItem = (props) => {
     hour12: true,
   };
   const formattedDateTime = currentDateTime.toLocaleString(undefined, options);
+
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        const response = await axios.get('/api/items');
+        setItems(response.data.items);
+        console.log(response.data.items);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching items:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchItems();
+  }, []);
+
+  useEffect(() => {
+    if (!loading && items && items.length > 0) {
+      const lowQuantityItems = items.filter(item => item.quantity < 5);
+      if (lowQuantityItems.length > 0) {
+        const lowItemsNames = lowQuantityItems.map(item => item.name).join(', ');
+        message.success(`Items running low: ${lowItemsNames}`);
+        alert(`Items running low: ${lowItemsNames}`);
+      }
+    }
+  }, [items, loading]);
+
 
   return (
     <Layout>
@@ -67,10 +102,17 @@ const DefaultItem = (props) => {
           <Menu.Item key="/bills" icon={<CopyOutlined />}>
             <Link to="/bills">Bills</Link>
           </Menu.Item>
-          <Menu.Item key="/customers" icon={<UserOutlined />}>
+          <Menu.Item key="/dashboard" icon={<DashboardOutlined />}>
             <Link to="/dashboard">Dashboard</Link>
           </Menu.Item>
-          <Menu.Item key="/logout" icon={<LogoutOutlined />}>
+
+          <Menu.Item key="/logout"
+            icon={<LogoutOutlined />}
+            onClick={() => {
+              localStorage.removeItem('auth');
+              navigate('/login')
+            }}
+          >
             Logout
           </Menu.Item>
         </Menu>
